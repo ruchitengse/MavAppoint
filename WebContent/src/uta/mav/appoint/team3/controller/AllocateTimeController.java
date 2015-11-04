@@ -8,7 +8,7 @@ import uta.mav.appoint.visitor.Visitor;
 
 /**
  * Controller to allocate time
- * @author Ruchi.U
+ * @author team3 fall
  *
  */
 public class AllocateTimeController {
