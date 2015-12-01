@@ -23,7 +23,7 @@ public class AssignStudentsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private HttpSession session;   
     private String header;
-    private AdvisorUser advUser;
+    private AdminUser adminUser;
     private ArrayList<AdvisorUser> deptAdvisors;
     private Department department;
     
@@ -34,24 +34,19 @@ public class AssignStudentsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		session = request.getSession();
 		LoginUser user = (LoginUser)session.getAttribute("user");
-		if (user == null){
-				
-				response.sendRedirect("login");		
+		if (user == null){	
+			response.sendRedirect("login");
+			return;
 		}
 		else{
 			try{
-				advUser = new AdvisorUser();
-				deptAdvisors = new ArrayList<AdvisorUser>();
 				DatabaseManager dbm = new DatabaseManager();
+				adminUser = new AdminUser();
+				adminUser = dbm.getAdmin(user.getEmail());
+				header = "templates/" + adminUser.getHeader() + ".jsp";
 				
-				advUser = dbm.getAdvisor(user.getEmail());
-				header = "templates/" + advUser.getHeader() + ".jsp";
-				
-				
-				deptAdvisors = dbm.getAdvisorsOfDepartment(advUser.getDepartments().get(0));
-				
-			
-				department = dbm.getDepartmentByName(advUser.getDepartments().get(0));
+				deptAdvisors = dbm.getAdvisorsOfDepartment(adminUser.getDepartments().get(0));
+				department = dbm.getDepartmentByName(adminUser.getDepartments().get(0));
 
 				session.setAttribute("message", "");
 				session.setAttribute("deptAdvisors", deptAdvisors);
@@ -60,7 +55,7 @@ public class AssignStudentsServlet extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/jsp/views/assignstudents.jsp").forward(request, response);
 			}
 			catch(Exception e){
-				//System.out.printf(e.toString());
+				
 			}
 		}
 	}
@@ -79,9 +74,9 @@ public class AssignStudentsServlet extends HttpServlet {
 			
 			DatabaseManager dbm = new DatabaseManager();
 	
-			advUser = dbm.getAdvisor(user.getEmail());
-			header = "templates/" + advUser.getHeader() + ".jsp";
-			deptAdvisors = dbm.getAdvisorsOfDepartment(advUser.getDepartments().get(0));
+			adminUser = dbm.getAdmin(user.getEmail());
+			header = "templates/" + adminUser.getHeader() + ".jsp";
+			deptAdvisors = dbm.getAdvisorsOfDepartment(adminUser.getDepartments().get(0));
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

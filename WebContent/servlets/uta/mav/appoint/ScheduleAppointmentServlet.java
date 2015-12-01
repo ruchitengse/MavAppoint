@@ -10,12 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import uta.mav.appoint.beans.Appointment;
 import uta.mav.appoint.beans.AppointmentType;
 import uta.mav.appoint.db.DatabaseManager;
 import uta.mav.appoint.login.LoginUser;
 import uta.mav.appoint.team3.controller.ScheduleAppointmentController;
-import uta.mav.appoint.email.Email;
 
 public class ScheduleAppointmentServlet extends HttpServlet{
 	private static final long serialVersionUID = -5925080374199613248L;
@@ -53,6 +51,7 @@ public class ScheduleAppointmentServlet extends HttpServlet{
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		session = request.getSession();
+		
 		String phoneNumber = request.getParameter("phoneNumber");
 		String appointmentId = request.getParameter("id2");
 		String studentId = request.getParameter("studentid");
@@ -62,7 +61,7 @@ public class ScheduleAppointmentServlet extends HttpServlet{
 		String duration = request.getParameter("duration");
 		String start = request.getParameter("start");
 		String email = request.getParameter("email");
-		
+	
 		try{
 			ScheduleAppointmentController.scheduleAppointment(phoneNumber, appointmentId, studentId,
 					description, appType, pName, duration, start, email);

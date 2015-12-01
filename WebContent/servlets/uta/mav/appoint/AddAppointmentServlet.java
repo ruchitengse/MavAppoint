@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import uta.mav.appoint.beans.AppointmentType;
-import uta.mav.appoint.db.DatabaseManager;
 import uta.mav.appoint.login.LoginUser;
 import uta.mav.appoint.visitor.AddAppointmentTypeVisitor;
 import uta.mav.appoint.visitor.Visitor;
@@ -52,8 +51,8 @@ public class AddAppointmentServlet extends HttpServlet {
 			catch(Exception e){
 				//System.out.printf(e.toString());
 			}
-			request.setAttribute("includeHeader", header);
-			request.getRequestDispatcher("/WEB-INF/jsp/views/customize.jsp").forward(request,response);
+//			request.setAttribute("includeHeader", header);
+//			request.getRequestDispatcher("/WEB-INF/jsp/views/customize.jsp").forward(request,response);
 		}
 
 }

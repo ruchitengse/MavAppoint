@@ -79,7 +79,6 @@ public class CreateAdvisorServlet extends HttpServlet{
 			
 			String emailAddress = request.getParameter("emailAddress");
 			String pName = request.getParameter("pname");
-			String isLead = request.getParameter("isLead");
 			
 			ArrayList<String> departmentsSelected = new ArrayList<String>();
 			String departmentFound = departments.get(Integer.valueOf(request.getParameter("drp_department"))).getName();
@@ -87,7 +86,7 @@ public class CreateAdvisorServlet extends HttpServlet{
 			
 			ArrayList<String> majorsSelected = departments.get(Integer.valueOf(request.getParameter("drp_department"))).getMajors();
 			String msg = "";
-			msg = CreateAdvisorController.createAdvisor(emailAddress, pName, departmentsSelected, majorsSelected, isLead);
+			msg = CreateAdvisorController.createAdvisor(emailAddress, pName, departmentsSelected, majorsSelected);
 			user.setMsg(msg);
 		}
 		catch(Exception e){

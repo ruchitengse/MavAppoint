@@ -1,3 +1,4 @@
+
 package uta.mav.appoint;
 
 import java.io.IOException;
@@ -69,6 +70,9 @@ public class ManageAppointmentServlet extends HttpServlet{
 		if (user != null){
 			try{
 					header = "templates/" + user.getHeader() + ".jsp";
+					/**
+					 * Can become creator pattern
+					 */
 					Appointment a = new Appointment();
 					a.setDescription(request.getParameter("description"));
 					a.setStudentId(request.getParameter("studentid"));

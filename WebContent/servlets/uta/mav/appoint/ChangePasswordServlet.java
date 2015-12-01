@@ -67,7 +67,7 @@ public class ChangePasswordServlet extends HttpServlet {
 			
 			if(password.length()>=8)
 			{
-				if(user.getPassword().equals(hashedPassword)){
+				if(user.verifyPassword(hashedPassword)){
 					if(password.equals(repeatpassword))
 					{
 						hashedPassword = HashPassword.hashpass(repeatpassword);

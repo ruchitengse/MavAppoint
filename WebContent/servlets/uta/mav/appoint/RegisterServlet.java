@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import uta.mav.appoint.login.*;
+import uta.mav.appoint.team3.chainofresponsibility.AbstractLogger;
 import uta.mav.appoint.team3.controller.GetDepartmentsController;
 import uta.mav.appoint.team3.controller.RegistrationController;
 
@@ -39,6 +40,7 @@ public class RegisterServlet extends HttpServlet {
 			majors = departments.get(0).getMajors();
 			session.setAttribute("departments", departments);
 			session.setAttribute("major", majors);
+			AbstractLogger.getInstance().logMessage(AbstractLogger.INFO, "In register servlet");
 		} catch(Exception e){
 			session.setAttribute("message", "Error while loading page");
 		}
