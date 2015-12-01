@@ -26,7 +26,9 @@ public class ConfigFileReader {
 	public static ConfigFileReader getInstance() throws IOException{
 		
 		if(configFileReader == null){
-			configFileReader = new ConfigFileReader();
+			synchronized (ConfigFileReader.class) {
+				configFileReader = new ConfigFileReader();
+			}
 		}
 		return configFileReader;
 	}
