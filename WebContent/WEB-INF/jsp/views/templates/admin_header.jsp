@@ -4,7 +4,9 @@
 	
 		<li><a href="changePassword"><font style="color: #e67e22" size="3">Change Password</font></a></li>
 		<li><a href="create_advisor"><font style="color: #e67e22" size="3">Add New Advisor </font></a></li>
+		<li><a href="delete_advisor"><font style="color: #e67e22" size="3">Delete Advisor </font></a></li>
 		<li><a href="appointments"><font style="color: #e67e22" size="3">Show Department Schedule</font></a></li>
+		<li><a href="assign_students"><font style="color: #e67e22" size="3">Assign Students To Advisors</font></a></li>
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
 
