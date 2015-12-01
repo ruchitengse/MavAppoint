@@ -24,7 +24,7 @@ public class GetStudentById  extends SQLCmd{
 	@Override
 	public void queryDB(){
 		try{
-			String command = "SELECT student_Id,degree_type,phone_num,last_name_initial FROM User_Student WHERE userId=?";
+			String command = "SELECT student_Id,degree_type,phone_num,last_name_initial, notification FROM User_Student WHERE userId=?";
 			PreparedStatement statement = conn.prepareStatement(command);
 			statement.setInt(1,userId);
 			res = statement.executeQuery();
@@ -46,7 +46,8 @@ public class GetStudentById  extends SQLCmd{
 			studentUser.setPhoneNumber(res.getString(i));
 			i++;
 			studentUser.setLastNameInitial(res.getString(i));
-			
+			i++;
+			studentUser.setNotification(res.getString(i));
 			result.add(studentUser);
 		}
 		catch(SQLException sq){

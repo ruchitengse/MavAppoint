@@ -12,6 +12,7 @@ public class CreateStudent  extends SQLCmd{
 	private Integer degree_type;
 	private String phone_num;
 	private String last_name_initial;
+	private String notification;
 	private Boolean b;
 	
 	public CreateStudent(StudentUser studentUser){
@@ -20,14 +21,15 @@ public class CreateStudent  extends SQLCmd{
 		degree_type = studentUser.getDegType();
 		phone_num = studentUser.getPhoneNumber();
 		last_name_initial = studentUser.getLastNameInitial();
+		notification = studentUser.getNotification();
 		b = false;
 	}
 	
 	@Override
 	public void queryDB() {
 		try{
-			String command = "INSERT INTO User_Student (userid,student_Id,degree_type,phone_num,last_name_initial) "
-								+"values(?,?,?,?,?)";
+			String command = "INSERT INTO User_Student (userid,student_Id,degree_type,phone_num,last_name_initial, notification) "
+								+"values(?,?,?,?,?,?)";
 			PreparedStatement statement = conn.prepareStatement(command);
 			int i=1;
 			statement.setInt(i,userid);
@@ -39,6 +41,8 @@ public class CreateStudent  extends SQLCmd{
 			statement.setString(i,phone_num);
 			i++;
 			statement.setString(i,last_name_initial);
+			i++;
+			statement.setString(i, notification);
 			statement.executeUpdate();
 			b = true;
 		}

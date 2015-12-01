@@ -33,7 +33,7 @@ public class GetDepartmentByName   extends SQLCmd{
 	@Override
 	public void processResult(){
 		try{
-			Department department = new Department();
+			Department department = new Department(); //Use flyweight/prototype
 			department.setName(name);
 			
 			ArrayList<String> majors = new ArrayList<String>();

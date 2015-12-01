@@ -22,7 +22,7 @@ public class UpdateAdvisor extends SQLCmd {
 	
 	public void queryDB(){
 		try{
-			String command = "UPDATE User_Advisor SET pName=?, notification=?, name_low=?, name_high=?, degree_types=?, lead_status=? WHERE userId=?";
+			String command = "UPDATE User_Advisor SET pName=?, notification=?, name_low=?, name_high=?, degree_types=? WHERE userId=?";
 			PreparedStatement statement = conn.prepareStatement(command);
 			
 			statement.setString(1,advisorUser.getPname());
@@ -30,8 +30,7 @@ public class UpdateAdvisor extends SQLCmd {
 			statement.setString(3,advisorUser.getNameLow());
 			statement.setString(4,advisorUser.getNameHigh());
 			statement.setInt(5,advisorUser.getDegType());
-			statement.setInt(6,advisorUser.getIsLead());
-			statement.setInt(7,advisorUser.getUserId());
+			statement.setInt(6,advisorUser.getUserId());
 
 			statement.executeUpdate();
 			b=true;
