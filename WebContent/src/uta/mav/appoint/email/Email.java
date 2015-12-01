@@ -2,17 +2,13 @@ package uta.mav.appoint.email;
 
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 import java.util.*;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 
 public class Email {
 	private String subject;
 	private String text;
 	private String toEmail;
+	
 	public Email(String sub, String txt, String destEmail)
 	{
 		subject = sub;
