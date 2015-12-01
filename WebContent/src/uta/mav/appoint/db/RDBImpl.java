@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import uta.mav.appoint.PrimitiveTimeSlot;
 import uta.mav.appoint.TimeSlotComponent;
@@ -21,6 +23,11 @@ import uta.mav.appoint.helpers.TimeSlotHelpers;
 import uta.mav.appoint.login.*;
 import uta.mav.appoint.team3fall.singleton.ConfigFileReader;
 
+/**
+ * Bridge Pattern connect to MySQL
+ * @author Ruchi.U
+ *
+ */
 public class RDBImpl implements DBImplInterface{
 
 	public Connection connectDB(){
@@ -183,8 +190,8 @@ public class RDBImpl implements DBImplInterface{
 		return timeSlots;
 	}
 
-	public Boolean createAppointment(Appointment appointment, String email){
-		Boolean result = false;
+	public HashMap<String, String> createAppointment(Appointment appointment, String email){
+		HashMap<String, String> result = new HashMap<String, String>();
 		int student_id = 0;
 		int advisor_id = 0;
 		try{
@@ -197,6 +204,15 @@ public class RDBImpl implements DBImplInterface{
 			while(rs.next()){
 				student_id = rs.getInt(1);
 			}
+			
+			command = "SELECT notification from user_student where userId=?";
+			statement=conn.prepareStatement(command);
+			statement.setInt(1,student_id);
+			rs = statement.executeQuery();
+			while(rs.next()){
+				result.put("student_notify", rs.getString("notification"));
+			}
+			
 			command = "SELECT userid FROM User_Advisor WHERE User_Advisor.pname=?";
 			statement=conn.prepareStatement(command);
 			statement.setString(1, appointment.getPname());
@@ -204,6 +220,23 @@ public class RDBImpl implements DBImplInterface{
 			while(rs.next()){
 				advisor_id = rs.getInt(1);
 			}
+			
+			command = "SELECT notification from user_advisor where userId=?";
+			statement=conn.prepareStatement(command);
+			statement.setInt(1,advisor_id);
+			rs = statement.executeQuery();
+			while(rs.next()){
+				result.put("advisor_notify", rs.getString("notification"));
+			}
+			
+			command = "SELECT email from user where userId=?";
+			statement=conn.prepareStatement(command);
+			statement.setInt(1,advisor_id);
+			rs = statement.executeQuery();
+			while(rs.next()){
+				result.put("advisor_email", rs.getString("email"));
+			}
+			
 			//check for slots already taken
 			command = "SELECT COUNT(*) FROM Advising_Schedule WHERE userid=? AND date=? AND start=? AND end=? AND studentId is not null";
 			statement = conn.prepareStatement(command);
@@ -242,7 +275,7 @@ public class RDBImpl implements DBImplInterface{
 					statement.setString(4, appointment.getAdvisingStartTime());
 					statement.setString(5, appointment.getAdvisingEndTime());
 					statement.executeUpdate();
-					result = true;
+					result.put("response", "success");
 				}
 			}
 			conn.close();
@@ -617,7 +650,6 @@ public class RDBImpl implements DBImplInterface{
 			department = (Department)sqlCmd2.getResult().get(0);
 			departments.add(department);
 		}
-		
 		return departments;
 	}
 	
@@ -631,6 +663,167 @@ public class RDBImpl implements DBImplInterface{
 		SQLCmd sqlCmd = new UpdateUser(loginUser);
 		sqlCmd.execute();
 		return true;
+	}
+	
+	public HashMap<String, ArrayList<String>> getAppointmentsUnderAdvisor(String advisorList){
+		
+		Connection conn = this.connectDB();
+		ResultSet rs = null;
+		HashMap<String, ArrayList<String>> advisorNameStudentMap = new HashMap<String, ArrayList<String>>();
+		Statement statement = null;
+		try {
+			String command = "SELECT distinct adv.pName, app.student_email FROM appointments app, user_advisor adv WHERE adv.userId = app.advisor_userId AND adv.userId IN (" + advisorList + ")";
+			statement = conn.createStatement();
+			rs = statement.executeQuery(command);
+			while(rs.next()){
+				String advisor = rs.getString("pName");
+				String studentEmail = rs.getString("student_email");
+				ArrayList<String> studentEmails = new ArrayList<String>();
+				if(advisorNameStudentMap.containsKey(advisor)){
+					studentEmails = advisorNameStudentMap.remove(advisor);
+				}
+				studentEmails.add(studentEmail);
+				advisorNameStudentMap.put(advisor, studentEmails);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (statement != null)
+					statement.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+			}
+		}
+		return advisorNameStudentMap;
+	}
+	
+	public boolean deleteAdvisor(String advisorList){
+		
+		Connection conn = this.connectDB();
+		Statement statement = null;
+		boolean response = false;
+		try {
+			conn.setAutoCommit(false);
+			String command = "DELETE FROM appointments WHERE advisor_userId IN ("+advisorList+")";
+			statement = conn.createStatement();
+			statement.executeUpdate(command);
+			
+			command = "DELETE FROM advising_schedule WHERE userId IN ("+advisorList+")";
+			statement = conn.createStatement();
+			statement.executeUpdate(command);
+			
+			command = "DELETE FROM department_user WHERE userId IN ("+advisorList+")";
+			statement = conn.createStatement();
+			statement.executeUpdate(command);
+			
+			command = "DELETE FROM major_user WHERE userId IN ("+advisorList+")";
+			statement = conn.createStatement();
+			statement.executeUpdate(command);
+			
+			command = "DELETE FROM user_advisor WHERE userId IN ("+advisorList+")";
+			statement = conn.createStatement();
+			statement.executeUpdate(command);
+			
+			command = "DELETE FROM user WHERE userId IN ("+advisorList+")";
+			statement = conn.createStatement();
+			statement.executeUpdate(command);
+			
+			command = "DELETE FROM appointment_types WHERE userId IN ("+advisorList+")";
+			statement = conn.createStatement();
+			statement.executeUpdate(command);
+			
+			conn.commit();
+			response = true;
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			response = false;
+		} finally {
+			try {
+				statement.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+			}
+		}
+		return response;
+	}
+
+
+	@Override
+	public String updateNotification(StudentUser user, String notification) {
+		
+		Connection conn = this.connectDB();
+		try {
+			conn.setAutoCommit(false);
+			PreparedStatement statement;
+			String command = "UPDATE user_student SET notification = ? WHERE userId = ?";
+			statement=conn.prepareStatement(command);
+			statement.setString(1, notification);
+			statement.setInt(2, user.getUserId());
+			statement.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				if(conn != null)
+					conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return "Updated successfully";
+	}
+
+
+	@Override
+	public String updateNotification(AdvisorUser user, String notification) {
+		
+		Connection conn = this.connectDB();
+		try {
+			conn.setAutoCommit(false);
+			PreparedStatement statement;
+			String command = "UPDATE user_advisor SET notification = ? WHERE userId = ?";
+			statement=conn.prepareStatement(command);
+			statement.setString(1, notification);
+			statement.setInt(2, user.getUserId());
+			statement.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				if(conn != null)
+					conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return "Updated successfully";
 	}
 }
 

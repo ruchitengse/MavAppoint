@@ -3,22 +3,27 @@ package uta.mav.appoint.db;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import uta.mav.appoint.TimeSlotComponent;
 import uta.mav.appoint.beans.AllocateTime;
 import uta.mav.appoint.beans.Appointment;
 import uta.mav.appoint.beans.AppointmentType;
-import uta.mav.appoint.beans.CreateAdvisorBean;
 import uta.mav.appoint.beans.GetSet;
-import uta.mav.appoint.beans.RegisterBean;
 import uta.mav.appoint.login.*;
 
+/**
+ * Bridge Pattern
+ * @author Ruchi.U
+ *
+ */
 public interface DBImplInterface {
+	
 	public Boolean cancelAppointment(int id) throws SQLException;
 	public ArrayList<Object> getAppointments(AdvisorUser user) throws SQLException;
 	public ArrayList<Object> getAppointments(StudentUser user) throws SQLException;
 	public ArrayList<Object> getAppointments(AdminUser user) throws SQLException;
-	public Boolean createAppointment(Appointment a, String email) throws SQLException;
+	public HashMap<String, String> createAppointment(Appointment a, String email) throws SQLException;
 	public ArrayList<TimeSlotComponent> getAdvisorSchedule(String name) throws SQLException;
 	public ArrayList<TimeSlotComponent> getAdvisorSchedules(ArrayList<AdvisorUser> advisorUsers) throws SQLException;
 	public Boolean createStudent(StudentUser studentUser) throws SQLException;
@@ -44,5 +49,9 @@ public interface DBImplInterface {
 	public StudentUser getStudent(String email);
 	public AdminUser getAdmin(String email);
 	public FacultyUser getFaculty(String email);
+	public HashMap<String, ArrayList<String>> getAppointmentsUnderAdvisor(String advisor);
+	public boolean deleteAdvisor(String advisorList);
+	public String updateNotification(StudentUser user, String notification);
+	public String updateNotification(AdvisorUser user, String notification);
 	
 }

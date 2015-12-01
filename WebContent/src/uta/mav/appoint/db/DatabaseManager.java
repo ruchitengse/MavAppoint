@@ -2,12 +2,14 @@ package uta.mav.appoint.db;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import uta.mav.appoint.TimeSlotComponent;
 import uta.mav.appoint.beans.*;
 import uta.mav.appoint.login.*;
 
 
+//Client Interface for Bridge Pattern
 public class DatabaseManager {
 	private DBImplInterface imp = new RDBImpl();
 	
@@ -51,7 +53,7 @@ public class DatabaseManager {
 		return imp.getAdvisorSchedules(advisorUsers);
 	}
 
-	public Boolean createAppointment(Appointment a,String email) throws SQLException{
+	public HashMap<String, String> createAppointment(Appointment a, String email) throws SQLException{
 		return imp.createAppointment(a,email);
 	}
 
@@ -127,6 +129,23 @@ public class DatabaseManager {
 	
 	public Boolean updateUser(LoginUser loginUser) throws SQLException {
 		return imp.updateUser(loginUser);
+	}
+	
+	public HashMap<String, ArrayList<String>> getAppointmentsUnderAdvisor(String advisor) {
+		return imp.getAppointmentsUnderAdvisor(advisor);
+	}
+	
+	public boolean deleteAdvisor(String advisorList){
+		return imp.deleteAdvisor(advisorList);
+	}
+
+	public String updateUserNotification(LoginUser user, String notification) {
+		if(user instanceof AdvisorUser){
+			return imp.updateNotification((AdvisorUser) user, notification);
+		} else if(user instanceof StudentUser){
+			return imp.updateNotification((StudentUser) user, notification);
+		} else
+			return null;
 	}
 }
 
