@@ -9,10 +9,12 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 
+import uta.mav.appoint.team3fall.singleton.ConfigFileReader;
+
 public abstract class NotificationCommand {
 	
-	protected String user = "team3sdp@gmail.com";
-    protected String pass = "team#sdp";
+	protected String user = ConfigFileReader.getInstance().getValue("EMAIL_USERNAME");
+    protected String pass = ConfigFileReader.getInstance().getValue("EMAIL_PASSWORD");
 	protected Session session;
 	protected MimeMessage message;
     
