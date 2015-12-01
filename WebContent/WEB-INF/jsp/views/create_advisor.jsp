@@ -42,12 +42,7 @@ width: 80%;
 			<label for="pname"><font color="#0" size="4">Display
 					Name</font></label><br> <input type="text" style="width: 350px;"
 				class="form-control" id="pname" placeholder="">
-
-			<label for="isLead"><font color="#0">Lead Advisor</font></label><br>
-			<select id="isLead" class="btn btn-default btn-lg dropdown-toggle">
-				<option value=1>True</option>
-				<option value=0>False</option>
-			</select> <br>
+				<br>
 		</div>
 
 		</div>
@@ -64,9 +59,8 @@ width: 80%;
 <script> function FormSubmit(){
 									var email = document.getElementById("emailAddress").value;
 									var pname = document.getElementById("pname").value;
-									var isLead = document.getElementById("isLead").value;
 									var drp_department = document.getElementById("drp_department").value;
-									var params = ('emailAddress='+email+'&pname='+pname+'&isLead='+isLead+'&drp_department='+drp_department);
+									var params = ('emailAddress='+email+'&pname='+pname+'&drp_department='+drp_department);
 									var xmlhttp;
 									xmlhttp = new XMLHttpRequest();
 									xmlhttp.onreadystatechange=function(){
