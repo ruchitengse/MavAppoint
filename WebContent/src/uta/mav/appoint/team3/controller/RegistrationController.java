@@ -37,6 +37,7 @@ public class RegistrationController {
 		studentUser.setDepartments(departmentsSelected);
 		studentUser.setMajors(majorsSelected);
 		studentUser.setDegType(Integer.parseInt(degreeType));
+		studentUser.setNotification("yes");
 		
 		String password = RandomPasswordGenerator.genpass();
 		studentUser.setPassword(password);

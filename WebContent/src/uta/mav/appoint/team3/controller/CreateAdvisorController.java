@@ -17,7 +17,7 @@ import uta.mav.appoint.team3fall.util.Util;
 public class CreateAdvisorController {
 	
 	public static String createAdvisor(String emailAddress, String pName, ArrayList<String> departmentsSelected, 
-			ArrayList<String> majorsSelected, String isLead) throws SQLException{
+			ArrayList<String> majorsSelected) throws SQLException{
 		
 		if(!Util.validateEmail(emailAddress))
 			return "Email Address Invalid!!";	
@@ -27,12 +27,11 @@ public class CreateAdvisorController {
 		advisorUser.setPname(pName);
 		advisorUser.setDepartments(departmentsSelected);
 		advisorUser.setPassword(RandomPasswordGenerator.genpass());
-		advisorUser.setNotification("day");
+		advisorUser.setNotification("yes");
 		advisorUser.setMajors(majorsSelected);
 		advisorUser.setNameLow("A");
 		advisorUser.setNameHigh("Z");
 		advisorUser.setDegType(7);
-		advisorUser.setIsLead(Integer.valueOf(isLead));
 		
 		DatabaseManager dbm = new DatabaseManager();
 		if (dbm.createAdvisor(advisorUser)){
