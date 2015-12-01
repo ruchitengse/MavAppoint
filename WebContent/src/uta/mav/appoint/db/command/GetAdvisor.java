@@ -2,7 +2,6 @@ package uta.mav.appoint.db.command;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class GetAdvisor extends SQLCmd{
 	private String email;
@@ -21,7 +20,7 @@ public class GetAdvisor extends SQLCmd{
 			cmd.execute();
 			userId = (int)cmd.getResult().get(0);
 			
-			String command = "SELECT password,validated,pName,name_low,name_high,degree_types,lead_status,Department_User.name,Major_User.name FROM User,User_Advisor,Department_User,Major_User WHERE USER.userId=? and User_Advisor.userId=? and Department_User.userId=? and Major_User.userId=?";
+			String command = "SELECT password,validated,pName,name_low,name_high,degree_types,Department_User.name,Major_User.name FROM User,User_Advisor,Department_User,Major_User WHERE USER.userId=? and User_Advisor.userId=? and Department_User.userId=? and Major_User.userId=?";
 			PreparedStatement statement = conn.prepareStatement(command);
 			int i=1;
 			statement.setInt(i,userId);

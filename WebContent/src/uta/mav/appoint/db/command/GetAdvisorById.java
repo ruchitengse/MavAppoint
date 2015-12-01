@@ -26,7 +26,7 @@ public class GetAdvisorById extends SQLCmd{
 	@Override
 	public void queryDB(){
 		try{
-			String command = "SELECT pName,notification,name_low,name_high,degree_types,lead_status FROM User_Advisor WHERE userId=?";
+			String command = "SELECT pName,notification,name_low,name_high,degree_types FROM User_Advisor WHERE userId=?";
 			PreparedStatement statement = conn.prepareStatement(command);
 			statement.setInt(1,userId);
 			res = statement.executeQuery();
@@ -51,9 +51,7 @@ public class GetAdvisorById extends SQLCmd{
 			i++;
 			advisorUser.setDegType(res.getInt(i));
 			i++;
-			advisorUser.setIsLead(res.getInt(i));
-			i++;
-			
+
 			result.add(advisorUser);
 		}
 		catch(SQLException sq){
