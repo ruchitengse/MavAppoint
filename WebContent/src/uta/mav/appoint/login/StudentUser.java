@@ -1,3 +1,4 @@
+
 package uta.mav.appoint.login;
 
 import java.util.ArrayList;
@@ -6,8 +7,9 @@ import uta.mav.appoint.visitor.Visitor;
 
 public class StudentUser extends LoginUser{
 	private Integer studentId;
-	private String 	phoneNumber;
-	private String	lastNameInitial;
+	private String phoneNumber;
+	private String lastNameInitial;
+	private String notification;
 
 	public StudentUser(String em){
 		super(em);
@@ -54,5 +56,15 @@ public class StudentUser extends LoginUser{
 
 	public void setLastNameInitial(String lastNameInitial) {
 		this.lastNameInitial = lastNameInitial;
+	}
+
+	@Override
+	public String getNotification() {
+		return notification;
+	}
+
+	@Override
+	public void setNotification(String notification) {
+		this.notification = notification;
 	}
 }

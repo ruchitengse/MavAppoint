@@ -2,7 +2,6 @@ package uta.mav.appoint.login;
 
 import java.util.ArrayList;
 
-import uta.mav.appoint.db.DatabaseManager;
 import uta.mav.appoint.visitor.Visitor;
 
 public class LoginUser {
@@ -19,6 +18,12 @@ public class LoginUser {
 	public LoginUser(){
 		email = "";
 		msg = "";
+	}
+	
+
+	public boolean verifyPassword(String hashedPassword) {
+		// TODO Auto-generated method stub
+		return this.password.equals(hashedPassword);
 	}
 	
 	public void accept(Visitor v){
@@ -163,5 +168,15 @@ public class LoginUser {
 	public void setDepartments(ArrayList<String> departments) {
 		this.departments = departments;
 	}
+
+	public String getNotification() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+
+	public void setNotification(String notification) {
+		// TODO Auto-generated method stub	
+	}
+	
 	
 }

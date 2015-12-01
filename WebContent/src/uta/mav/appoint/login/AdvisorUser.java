@@ -2,12 +2,10 @@ package uta.mav.appoint.login;
 
 import java.util.ArrayList;
 
-import uta.mav.appoint.beans.AllocateTime;
-import uta.mav.appoint.db.DatabaseManager;
 import uta.mav.appoint.visitor.Visitor;
 
 /**
- * @author William
+ * @author Ruchi
  *
  */
 public class AdvisorUser extends LoginUser{
@@ -17,7 +15,6 @@ public class AdvisorUser extends LoginUser{
 	private String notification;
 	private String nameLow;
 	private String nameHigh;
-	private Integer isLead;
 	
 	public AdvisorUser(){
 		super();
@@ -122,11 +119,7 @@ public class AdvisorUser extends LoginUser{
 	
 	@Override
 	public String getHeader(){
-		if(isLead == 0){
-			return "advisor_header";
-		}else{
-			return "lead_advisor_header";
-		}
+		return "lead_advisor_header";
 	}
 
 	/**
@@ -183,22 +176,14 @@ public class AdvisorUser extends LoginUser{
 	public void setPname(String pname) {
 		this.pname = pname;
 	}
-	
+
+	@Override
 	public String getNotification() {
 		return notification;
 	}
 	
+	@Override
 	public void setNotification(String notification) {
 		this.notification = notification;
 	}
-	
-	public void setIsLead(Integer isLead) {
-		this.isLead = isLead;
-	}
-
-	public Integer getIsLead() {
-		return isLead;
-	}
-	
-	
 }
