@@ -22,25 +22,27 @@ public class ManageTimeSlotServlet extends HttpServlet {
 		LoginUser user = (LoginUser)session.getAttribute("user");
 		if (user != null){
 			header = "templates/" + user.getHeader() + ".jsp";
-		try{
-			AllocateTime at = new AllocateTime();
-			at.setDate(request.getParameter("Date"));
-			at.setStartTime(request.getParameter("StartTime2"));
-			at.setEndTime(request.getParameter("EndTime2"));
-			at.setEmail(request.getParameter("pname")); //using pname to find correct advisor instead of email
-			Visitor v = new ManageTimeSlotVisitor();
-			user.accept(v,at);
-			request.setAttribute("response",user.getMsg());
-		}
-			catch(Exception e){
-				//System.out.printf(e.toString());
+			try{
+				AllocateTime at = new AllocateTime();
+				at.setDate(request.getParameter("Date"));
+				at.setStartTime(request.getParameter("StartTime2"));
+				at.setEndTime(request.getParameter("EndTime2"));
+				at.setEmail(request.getParameter("pname")); //using pname to find correct advisor instead of email
+				Visitor v = new ManageTimeSlotVisitor();
+				user.accept(v,at);
+				response.setHeader("Refresh","2; URL=availability");
+				request.getRequestDispatcher("/WEB-INF/jsp/views/success.jsp").forward(request,response);
+				return;
 			}
-		}
-		else{
+			catch(Exception e){
+				response.setHeader("Refresh","2; URL=availability");
+				request.getRequestDispatcher("/WEB-INF/jsp/views/failure.jsp").forward(request,response);
+				return;
+			}
+		} else{
 				header = "templates/header.jsp";
+				request.getRequestDispatcher("/WEB-INF/jsp/views/login.jsp").forward(request, response);
+				return;
 		}
-		request.setAttribute("includeHeader", header);
-		request.getRequestDispatcher("/WEB-INF/jsp/views/login.jsp").forward(request, response);
-	
 	}
 }

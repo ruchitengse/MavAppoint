@@ -11,6 +11,11 @@ import javax.mail.internet.MimeMessage;
 
 import uta.mav.appoint.team3fall.singleton.ConfigFileReader;
 
+/**
+ * Template and Command Pattern
+ * @author Ruchi.U
+ *
+ */
 public abstract class NotificationCommand {
 	
 	protected String user = ConfigFileReader.getInstance().getValue("EMAIL_USERNAME");

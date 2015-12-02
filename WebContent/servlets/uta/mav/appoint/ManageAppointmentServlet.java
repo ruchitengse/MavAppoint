@@ -82,13 +82,15 @@ public class ManageAppointmentServlet extends HttpServlet{
 					if (result == true){
 						response.setHeader("Refresh","2; URL=appointments");
 						request.getRequestDispatcher("/WEB-INF/jsp/views/success.jsp").forward(request,response);
-						String sub = "Appointment changed to " + a.getAdvisingDate();
-						String mess = ",\nAn appointment has been set for " + a.getAdvisingDate()
-						+ " at " + a.getAdvisingStartTime() + " - " + a.getAdvisingEndTime()
-						+ "\nAppoint ID: " + a.getAppointmentId();
-						String email = a.getStudentEmail();
-						Email newMail = new Email(sub,mess + email,email);
-						newMail.sendMail();
+						if("yes".equalsIgnoreCase(user.getNotification())){
+							String sub = "Appointment changed to " + a.getAdvisingDate();
+							String mess = ",\nAn appointment has been set for " + a.getAdvisingDate()
+							+ " at " + a.getAdvisingStartTime() + " - " + a.getAdvisingEndTime()
+							+ "\nAppoint ID: " + a.getAppointmentId();
+							String email = a.getStudentEmail();
+							Email newMail = new Email(sub,mess + email,email);
+							newMail.sendMail();
+						}
 					}
 					else{
 						response.setHeader("Refresh","2; URL=appointments");

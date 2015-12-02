@@ -66,18 +66,14 @@ public class AllocateTimeServlet extends HttpServlet {
 		String repeat = request.getParameter("repeat");
 		
 		try{
-			user.setMsg(AllocateTimeController.allocateTimeToAdvisor(date, startTime, endTime, user, repeat));
+			String msg = AllocateTimeController.allocateTimeToAdvisor(date, startTime, endTime, user, repeat);
+			response.setHeader("Refresh","2; URL=availability");
+			request.getRequestDispatcher("/WEB-INF/jsp/views/success.jsp").forward(request,response);
 		}
 		catch(Exception e){
 			user.setMsg("Unable to set advising hours");
+			response.setHeader("Refresh","2; URL=availability");
+			request.getRequestDispatcher("/WEB-INF/jsp/views/failure.jsp").forward(request,response);
 		}
-		response.setContentType("text/plain");
-		response.setHeader("Cache-Control", "no-cache");
-		response.setHeader("Pragma", "no-cache");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		out.write(user.getMsg());
-		out.flush();
-		out.close();
 	}
 }

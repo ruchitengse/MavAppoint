@@ -2,6 +2,11 @@ package uta.mav.appoint.team3.chainofresponsibility;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Logger: Chain of responsibility pattern
+ * @author Ruchi.U
+ *
+ */
 public abstract class AbstractLogger {
 	
 	public static int INFO = 1;
@@ -26,6 +31,8 @@ public abstract class AbstractLogger {
 		}
 	}
 	
+	abstract protected void write(String message);
+	
 	public static AbstractLogger getInstance(){
 		AbstractLogger errorLogger = new ErrorLogger(AbstractLogger.ERROR);
 		AbstractLogger debugLogger = new DebugLogger(AbstractLogger.DEBUG);
@@ -36,7 +43,5 @@ public abstract class AbstractLogger {
 		
 		return errorLogger;	
 	}
-	
-	abstract protected void write(String message);
 
 }

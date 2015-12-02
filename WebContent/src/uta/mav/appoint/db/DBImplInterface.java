@@ -13,7 +13,7 @@ import uta.mav.appoint.beans.GetSet;
 import uta.mav.appoint.login.*;
 
 /**
- * Bridge Pattern
+ * Bridge Pattern: Implementation Interface
  * @author Ruchi.U
  *
  */

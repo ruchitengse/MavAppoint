@@ -12,7 +12,7 @@ import uta.mav.appoint.team3.command.OutlookNotification;
 import uta.mav.appoint.team3fall.util.Util;
 
 /**
- * Controller to schedule appointment
+ * Controller Pattern to schedule appointment
  * @author SDP Team 3
  *
  */
@@ -21,6 +21,7 @@ public class ScheduleAppointmentController {
 	public static void scheduleAppointment(String phoneNumber, String appointmentId, String studentId, 
 			String description, String appType, String pName, String duration, String start, String email) throws SQLException, ParseException{
 		
+		//Creator Pattern
 		Appointment a = new Appointment();
 		a.setStudentPhoneNumber(phoneNumber);
 		a.setAppointmentId(Integer.parseInt(appointmentId));

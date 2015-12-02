@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import uta.mav.appoint.visitor.Visitor;
 
+/**
+ * Use of expert pattern
+ * @author Ruchi.U
+ *
+ */
 public class LoginUser {
 	private Integer userId;
 	private String password;
@@ -20,7 +25,7 @@ public class LoginUser {
 		msg = "";
 	}
 	
-
+	//Expert Pattern
 	public boolean verifyPassword(String hashedPassword) {
 		// TODO Auto-generated method stub
 		return this.password.equals(hashedPassword);

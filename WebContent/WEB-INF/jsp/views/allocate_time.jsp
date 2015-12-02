@@ -83,8 +83,7 @@
 	 						</script>
 
 
-	<form name=addTimeSlot action="availability" method="post"
-		onsubmit="return false;">
+	<form name=addTimeSlot id="add_time_slot" action="availability" method="post">
 		<div class="modal fade" id="addTimeSlotModal" tabindex="-1">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -112,8 +111,7 @@
 			</div>
 		</div>
 	</form>
-	<form name=deleteTimeSlot action="ts-manage" method="post"
-		onsubmit="return false;">
+	<form name=deleteTimeSlot id="delete_time_slot" action="ts-manage" method="post">
 		<div class="modal fade" id="deleteTimeSlotModal" tabindex="-1">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -147,19 +145,20 @@
 									var date = document.getElementById("opendate").value;
 									var repeat = document.getElementById("repeat").value;
 									var params = ('starttime='+starttime+'&endtime='+endtime+'&opendate='+date+'&repeat='+repeat);
-									var xmlhttp;
-									xmlhttp = new XMLHttpRequest();
-									xmlhttp.onreadystatechange=function(){
-										if (xmlhttp.readyState==4){
-											document.getElementById("result").innerHTML = xmlhttp.responseText;	
-										}
-									}
-									xmlhttp.open("POST","availability",true);
-									xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-									xmlhttp.setRequestHeader("Content-length",params.length);
-									xmlhttp.setRequestHeader("Connection","close");
-									xmlhttp.send(params);
-									document.getElementById("result").innerHTML = "Attempting to add time slot...";
+									//var xmlhttp;
+									//xmlhttp = new XMLHttpRequest();
+									//xmlhttp.onreadystatechange=function(){
+										//if (xmlhttp.readyState==4){
+											//document.getElementById("result").innerHTML = xmlhttp.responseText;	
+										//}
+									//}
+									//xmlhttp.open("POST","availability",true);
+									//xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+									//xmlhttp.setRequestHeader("Content-length",params.length);
+									//xmlhttp.setRequestHeader("Connection","close");
+									//xmlhttp.send(params);
+									//document.getElementById("result").innerHTML = "Attempting to add time slot...";
+									document.getElementById('add_time_slot').submit();
 								}
 
 					</script>
@@ -167,25 +166,26 @@
 	function validate(){
 		var valid = confirm('Are you sure you want to delete?');	
 		if (valid == true){
-			var starttime = document.getElementById("StartTime2").value;
-			var endtime = document.getElementById("EndTime2").value;
-			var date = document.getElementById("Date").value;
-			var pname = document.getElementById("pname").value;
-			var params = ('StartTime2='+starttime+'&EndTime2='+endtime+'&Date='+date+'&pname='+pname);
-			var xmlhttp;
-			xmlhttp = new XMLHttpRequest();
-			xmlhttp.onreadystatechange=function(){
-				if (xmlhttp.readyState==4){
-					document.getElementById("result2").innerHTML = xmlhttp.responseText;	
-				}
-			}
-			xmlhttp.open("POST","ts-manage",true);
-			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-			xmlhttp.setRequestHeader("Content-length",params.length);
-			xmlhttp.setRequestHeader("Connection","close");
-			xmlhttp.send(params);
-			document.getElementById("result2").innerHTML = "Attempting to delete time slot...";
-			return false;
+			//var starttime = document.getElementById("StartTime2").value;
+			//var endtime = document.getElementById("EndTime2").value;
+			//var date = document.getElementById("Date").value;
+			//var pname = document.getElementById("pname").value;
+			document.getElementById('delete_time_slot').submit();
+			//var params = ('StartTime2='+starttime+'&EndTime2='+endtime+'&Date='+date+'&pname='+pname);
+			//var xmlhttp;
+			//xmlhttp = new XMLHttpRequest();
+			//xmlhttp.onreadystatechange=function(){
+				//if (xmlhttp.readyState==4){
+					//document.getElementById("result2").innerHTML = xmlhttp.responseText;	
+				//}
+			//}
+			//xmlhttp.open("POST","ts-manage",true);
+			//xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			//xmlhttp.setRequestHeader("Content-length",params.length);
+			//xmlhttp.setRequestHeader("Connection","close");
+			//xmlhttp.send(params);
+			//document.getElementById("result2").innerHTML = "Attempting to delete time slot...";
+			//return false;
 		}
 		else {
 			return false;

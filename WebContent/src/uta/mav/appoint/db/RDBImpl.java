@@ -24,7 +24,7 @@ import uta.mav.appoint.login.*;
 import uta.mav.appoint.team3fall.singleton.ConfigFileReader;
 
 /**
- * Bridge Pattern connect to MySQL
+ * Bridge Pattern Concrete class: Connect to MySQL
  * @author Ruchi.U
  *
  */
